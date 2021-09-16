@@ -37,7 +37,7 @@ Add the AWS security keys in the env var as done before with Terraform,
 
 # Creating a VPC using IaC Terraform 
 
-![alt text]()
+![alt text](https://github.com/ioanan11/sre_terraform/blob/main/Screenshot%202021-09-16%20135130.png)
 
 To configure a VPC using Terraform, we need a few things to be coded:
 
