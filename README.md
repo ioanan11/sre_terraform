@@ -7,7 +7,7 @@
 - After you download Terraform from https://www.terraform.io/downloads.html, unzip the file and create an environment for it on your local machine.
 
 - From Windows menu search for Environment. 
-![alt text]()
+![alt text](https://github.com/ioanan11/sre_terraform/blob/main/Screenshot%202021-09-16%20101107.png)
 
 - Click on environment variables and add for users and system variables by clicking "New". Add the name and the location where you saved Terraform. 
 
@@ -15,7 +15,7 @@
 
 
 ## Commands
-![alt text]()
+![alt text](https://github.com/ioanan11/sre_terraform/blob/main/Screenshot%202021-09-16%20103248.png)
 
 # Task
 
