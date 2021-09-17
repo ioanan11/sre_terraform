@@ -47,11 +47,12 @@ To configure a VPC using Terraform, we need a few things to be coded:
 - Route Table
 - NACL
 
-We will code in main.tf, vpc.tf, network.tf and variable.tf.
+We will code in `main.tf`, `vpc.tf`, `network.tf` and `variable.tf`.
 
 Variables will be defined in `variables.tf` and referenced in `main.tf` using `var.resource_name`.
-We will use vpc.tf to configure the VPC.
-We will use network.tf to configure the IG, subnets, route table and NACLs.
+We will use `vpc.tf` to configure the VPC and subnets.
+We will use `network.tf` to configure network related stuff, like the IG, route table and NACLs.
+We will use `main.tf` only for launching the instances.
 
 ## 1.Configure and launch the VPC
 
@@ -67,22 +68,15 @@ resource "aws_vpc" "sre_ioana_vpc_terraform" {
 }
 
 ``` 
+
+Then run `terraform plan` and `terraform apply`. 
+
+Make sure to put the VPC id in `variable.tf`. 
+
+
 ## 2. Configure IG, subnet, route table and NACLs
 
-### 1. CIDR
-
-```
-resource "aws_vpc" "sre_ioana_vpc" {
- cidr_block = 10.103.0.0/16
- instance = "default"
- tags = {
-    Name = "sre_ioana_sre"
- }
-}
-
-```
-
-## 2. Internet Gateway
+### a. Internet Gateway
 
 ```
 
@@ -96,7 +90,7 @@ resource "aws_internet_gateway" "sre_ioana_igw" {
 
 ```
 
-## 3. Public Subnet
+### b. Public Subnet
 
 ```
 resource "aws_subnet" "sre_ioana_subnet_public" {
@@ -112,7 +106,7 @@ resource "aws_subnet" "sre_ioana_subnet_public" {
 
 ```
 
-## 4. Route Table
+### c. Route Table
 
 ```
 resource "aws_route_table" "sre_ioana_rt" {
@@ -131,7 +125,7 @@ resource "aws_route_table" "sre_ioana_rt" {
 }
 ```
 
-## 5. NACL
+### d. NACL
 
 ```
 resource "aws_network_acl" "sre_ioana_nacl_public" {
@@ -215,7 +209,7 @@ resource "aws_network_acl" "sre_ioana_nacl_public" {
 }
 ```
 
-## 6. Security Group
+### e. Security Group
 
 ```
 resource "aws_security_group" "allow_tls" {
@@ -254,6 +248,8 @@ resource "aws_security_group" "allow_tls" {
 
 ## Step 1: `main.tf` should contain the following code:
 
+**Note**: Make sure you have put the app SG id in `variable.tf`.
+
 ```
 
 # Let's set up our server provider with Terraform
@@ -270,13 +266,17 @@ provider "aws" {
 
 
 resource "aws_instance" "app_instance" {
- ami = "ami-00e8ddf087865b27f"
+ ami = "ami-04b3766b32ff36923"
  instance_type = "t2.micro"
  associate_public_ip_address = true
+ key_name = var.aws_key_name
+ #subnet_id = var.subnet_id
+ vpc_security_group_ids = [var.app_sg]
  tags = {
   Name = "sre_ioana_terraform_app"
  }
 }
+
 
 ```
 
@@ -287,3 +287,11 @@ terraform plan
 terraform apply
 
 ```
+
+# Configure Cloud Watch using Terraform
+
+## Monitoring, Load Balancer, Application ALB, Network Load Balancer, Auto Scaling Group
+
+# Terraform with Ansible
+
+![alt text]()

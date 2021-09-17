@@ -113,12 +113,52 @@ resource "aws_network_acl" "sre_ioana_public_nacl_terra" {
 		protocol = "tcp"
 		rule_no = 140
 		action = "allow"
-		cidr_block = "10.104.2.0/24"
+		cidr_block = "10.103.2.0/24"
 		from_port = 27017
 		to_port = 27017
 	}
 
 	tags = {
 		Name = "sre_ioana_nacl_public_terraform"
+	}
+}
+
+
+resource "aws_network_acl" "sre_ioana_nacl_private_terraform" {
+	vpc_id = aws_vpc.sre_ioana_vpc_terraform.id
+	subnet_ids = [aws_subnet.sre_ioana_subnet_private_terraform.id]
+
+
+	ingress {
+		protocol = "tcp"
+		rule_no = 100
+		action = "allow"
+		cidr_block = "10.103.1.0/24"
+		from_port = 22
+		to_port = 22
+	}
+
+	
+	ingress {
+		protocol = "tcp"
+		rule_no = 110
+		action = "allow"
+		cidr_block = "10.104.1.0/24"
+		from_port = 27017
+		to_port = 27017
+	}
+	
+	
+	egress {
+		protocol = "tcp"
+		rule_no = 100
+		action = "allow"
+		cidr_block = "10.103.1.0/24"
+		from_port = 1024
+		to_port = 65535
+	}
+
+	tags = {
+		Name = "sre_ioana_nacl_private_terraform"
 	}
 }
