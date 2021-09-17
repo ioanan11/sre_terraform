@@ -294,4 +294,4 @@ terraform apply
 
 # Terraform with Ansible
 
-![alt text]()
+![alt text](https://github.com/ioanan11/sre_terraform/blob/main/Screenshot%202021-09-17%20153557.png)
